@@ -12,6 +12,9 @@ import XemThemCayTrong from './ManHinh/XemThemCayTrong'
 import XemHangMoiVe from './ManHinh/XemHangMoiVe'
 import ChiTietCayTrong from './ManHinh/ChiTietCayTrong'
 import XemThemChauCayChong from './ManHinh/XemThemChauCayChong'
+import GioHang from './ManHinh/GioHang'
+import PaymentScreen from './ManHinh/PaymentScreen'
+import BankCardScreen from './ManHinh/BankCardScreen'
 
 const App = () => {
   const stack = createNativeStackNavigator();
@@ -28,6 +31,9 @@ const App = () => {
         <stack.Screen name='xemHangMv' component={XemHangMoiVe}/>
         <stack.Screen name='chiTietCt' component={ChiTietCayTrong}/>
         <stack.Screen name='xemThemChauCt' component={XemThemChauCayChong}/>
+        <stack.Screen name='gioHang' component={GioHang}/>
+        <stack.Screen name='PaymentScreen' component={PaymentScreen}/>
+        <stack.Screen name='BankCardScreen' component={BankCardScreen}/>
       </stack.Navigator>
     </NavigationContainer>
     

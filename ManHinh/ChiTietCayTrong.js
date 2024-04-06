@@ -1,31 +1,58 @@
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { URL } from './TrangChu';
 
 const ChiTietCayTrong = ({ navigation, route }) => {
-  const {item} = route.params;
+  const { item } = route.params;
 
   const [count, setcount] = useState(0)
   const [TongTien, setTongTien] = useState(0)
 
-  const handleTang =()=>{
-    setcount(count+1);
+  const themGioHang = async()=>{
+
+    const newCart ={
+      anhCrat: item.img,
+      tenCrat: item.name,
+      giaCrat: item.money,
+      count : count,
+      tongTien: TongTien
+    }
+    try{
+     const res= await fetch(URL+`/cart`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(newCart)
+      })
+      if(res.ok){
+        console.log("Thêm thành công");
+      }else{
+          console.log("Thêm thất bại");
+      }
+
+    }catch(err){
+      console.log(err);
+    }
   }
 
-  const handleGiam =()=>{
-    count > 0 ? setcount(count-1) : setcount(count);
+  const handleTang = () => {
+    setcount(count + 1);
+  }
+
+  const handleGiam = () => {
+    count > 0 ? setcount(count - 1) : setcount(count);
   }
 
   const getTongTien = () => {
-    const Tong = (item.money)*count;
+    const Tong = (item.money) * count;
     setTongTien(Tong);
   }
-  
+
 
   useEffect(() => {
     getTongTien()
   }, [count])
-  
-  
+
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -36,7 +63,7 @@ const ChiTietCayTrong = ({ navigation, route }) => {
           </TouchableOpacity>
           <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: 'black' }}>{item.name}</Text>
           <TouchableOpacity style={{ width: 50 }}
-          // onPress={()=>navigation.navigate('CartScreen')}
+          onPress={()=>navigation.navigate('gioHang')}
           >
             <Image style={{ width: 26, height: 26 }}
               source={require('../Img/cart.png')} />
@@ -48,9 +75,9 @@ const ChiTietCayTrong = ({ navigation, route }) => {
 
         </View>
 
-      <View style={{margin:10}}>
-        {item.type?<Text style={{fontSize:20,backgroundColor:'green',color:'white',width:120,textAlign:'center',padding:5,borderRadius:10}}>Sản Phẩm</Text>:<Text style={{fontSize:20,backgroundColor:'green',color:'white',width:120,textAlign:'center',padding:5,borderRadius:10}}>Cầy Trồng</Text>}
-      </View>
+        <View style={{ margin: 10 }}>
+          {item.type ? <Text style={{ fontSize: 20, backgroundColor: 'green', color: 'white', width: 120, textAlign: 'center', padding: 5, borderRadius: 10 }}>Sản Phẩm</Text> : <Text style={{ fontSize: 20, backgroundColor: 'green', color: 'white', width: 120, textAlign: 'center', padding: 5, borderRadius: 10 }}>Cầy Trồng</Text>}
+        </View>
 
         <View style={{ marginHorizontal: 50 }}>
           <Text style={{ fontSize: 25, color: 'green' }}>{item.money}đ</Text>
@@ -83,13 +110,13 @@ const ChiTietCayTrong = ({ navigation, route }) => {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '42%' }}>
               <TouchableOpacity
-                onPress={()=>{handleGiam()}}
+                onPress={() => { handleGiam() }}
                 style={styles.btn}>
                 <Image source={require('../Img/subtract.png')} style={styles.icon} />
               </TouchableOpacity>
               <Text style={{ fontSize: 19, color: 'black' }}>{count}</Text>
               <TouchableOpacity
-                onPress={()=>{handleTang()}}
+                onPress={() => { handleTang() }}
                 style={styles.btn}>
                 <Image source={require('../Img/add.png')} style={styles.icon} />
               </TouchableOpacity>
@@ -100,12 +127,18 @@ const ChiTietCayTrong = ({ navigation, route }) => {
         </View>
 
         <TouchableOpacity
-        onPress={()=>{
-              count == 0 ? Alert.alert("Thông Báo","Vui lòng chọn số lượng") : Alert.alert("Đã thêm vào giỏ hàng")
-            }}
-            style={{borderRadius: 9,padding: 12,margin: 10,alignItems: 'center', backgroundColor: count == 0 ? 'gray' : 'green'}}>
-              <Text style={{color: 'white',fontSize:20}}>Chọn Mua</Text>
-            </TouchableOpacity>
+          onPress={() => {
+            if (count == 0) {
+              Alert.alert("Thông Báo", "Vui lòng chọn số lượng")
+            } else {
+              Alert.alert("Đã thêm vào giỏ hàng")
+              themGioHang()
+            }
+
+          }}
+          style={{ borderRadius: 9, padding: 12, margin: 10, alignItems: 'center', backgroundColor: count == 0 ? 'gray' : 'green' }}>
+          <Text style={{ color: 'white', fontSize: 20 }}>Chọn Mua</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   )

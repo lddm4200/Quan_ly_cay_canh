@@ -31,7 +31,7 @@ const XemThemCayTrong = ({ navigation, route }) => {
                     </TouchableOpacity>
                     <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold' }}>Cây trồng</Text>
                     <TouchableOpacity style={{ width: 50 }}
-                    // onPress={()=>navigation.navigate('CartScreen')}
+                    onPress={()=>navigation.navigate('gioHang')}
                     >
                         <Image style={{ width: 26, height: 26 }}
                             source={require('../Img/cart.png')} />

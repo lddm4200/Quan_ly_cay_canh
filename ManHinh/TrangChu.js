@@ -1,6 +1,6 @@
 import { FlatList, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-export const URL = 'http://192.168.1.3:3000';
+export const URL = 'http://192.168.67.67:3000';
 const TrangChu = ({ navigation }) => {
   const [data, setdata] = useState([])
   const [loading, setloading] = useState(true)
@@ -58,7 +58,9 @@ const TrangChu = ({ navigation }) => {
         <Text style={[styles.txt, { position: 'absolute', top: 50 }]}>Planta - toả sáng{'\n'}không gian nhà bạn{'\n'}
           <TouchableOpacity onPress={()=>navigation.navigate('xemHangMv')}>
             <Text style={[{ color: 'green', fontSize: 18 }]}>Xem hàng mới về -{'>'}</Text></TouchableOpacity></Text>
-
+            <TouchableOpacity style={{position: 'absolute',alignSelf:'flex-end',margin:50,right:0}} onPress={()=>navigation.navigate('gioHang')}>
+            <Image style={{width:30,height:30,}} source={require('../Img/cart.png')}/>
+</TouchableOpacity>
         <Text style={styles.txt}>Cây Trồng</Text>
         <FlatList
           scrollEnabled={false}
